@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoastMe AI — Project Proposal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-weight: 400;
+      line-height: 1.65;
+      color: #e8eaef;
+      background: radial-gradient(ellipse 120% 80% at 50% -20%, #2a1f4a 0%, transparent 55%),
+                  linear-gradient(180deg, #12141a 0%, #0c0d11 100%);
+    }
+
+    .wrap {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    header h1 {
+      font-family: "Outfit", "DM Sans", sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      letter-spacing: -0.03em;
+      margin: 0 0 0.75rem;
+      background: linear-gradient(135deg, #c4b5fd 0%, #22d3ee 50%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    header p.subtitle {
+      margin: 0;
+      font-size: 1.05rem;
+      color: #9ca3b8;
+      max-width: 36rem;
+      margin-inline: auto;
+      line-height: 1.5;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      padding: 0.35rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      max-width: fit-content;
+      margin-inline: auto;
+    }
+
+    .tabs button {
+      font-family: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      padding: 0.65rem 1.35rem;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      color: #9ca3b8;
+      background: transparent;
+      transition: color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    .tabs button:hover {
+      color: #e8eaef;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .tabs button[aria-selected="true"] {
+      color: #0c0d11;
+      background: linear-gradient(135deg, #a78bfa 0%, #34d399 100%);
+      box-shadow: 0 0 24px rgba(52, 211, 153, 0.25);
+    }
+
+    .panel {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .panel.is-active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: rgba(24, 26, 34, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1rem;
+      padding: 1.75rem 1.85rem;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+    }
+
+    .overview p {
+      margin: 0 0 1.25rem;
+      text-align: justify;
+      hyphens: auto;
+      color: #c4c9d4;
+    }
+
+    .overview p:last-child {
+      margin-bottom: 0;
+    }
+
+    .overview p strong {
+      color: #a78bfa;
+      font-weight: 600;
+    }
+
+    .team-name {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 1.25rem;
+      color: #34d399;
+      letter-spacing: -0.02em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    th {
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #a78bfa;
+      background: rgba(167, 139, 250, 0.08);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .storyboard-table img {
+      display: block;
+      max-width: 220px;
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .storyboard-table td:first-child {
+      vertical-align: top;
+      width: 240px;
+    }
+
+    @media (max-width: 720px) {
+      .storyboard-table,
+      .storyboard-table thead,
+      .storyboard-table tbody,
+      .storyboard-table th,
+      .storyboard-table td,
+      .storyboard-table tr {
+        display: block;
+      }
+
+      .storyboard-table thead {
+        display: none;
+      }
+
+      .storyboard-table tr {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .storyboard-table td {
+        border: none;
+        padding: 0.5rem 0;
+      }
+
+      .storyboard-table td::before {
+        display: block;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #a78bfa;
+        margin-bottom: 0.35rem;
+      }
+
+      .storyboard-table td:nth-child(1)::before { content: "Image"; }
+      .storyboard-table td:nth-child(2)::before { content: "Scene Description"; }
+      .storyboard-table td:nth-child(3)::before { content: "Narration"; }
+
+      .storyboard-table img {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>RoastMe AI</h1>
+      <p class="subtitle">Turn any TikTok trend into a customized celebrity roast with AI deepfakes.</p>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="Proposal sections">
+      <button type="button" role="tab" id="tab-overview" aria-selected="true" aria-controls="panel-overview">Overview</button>
+      <button type="button" role="tab" id="tab-team" aria-selected="false" aria-controls="panel-team">Team</button>
+      <button type="button" role="tab" id="tab-storyboard" aria-selected="false" aria-controls="panel-storyboard">Storyboard</button>
+    </div>
+
+    <main>
+      <section id="panel-overview" class="panel overview is-active" role="tabpanel" aria-labelledby="tab-overview">
+        <div class="card">
+          <p><strong>Motivation:</strong> The rise of reaction videos and celebrity roasts on platforms like TikTok and Instagram Reels shows a massive appetite for comedic, personalized content. Getting a famous personality like Dana White to react to a specific niche video is essentially impossible for the average user. We want to bridge this gap by allowing anyone to be &quot;roasted&quot; by their favorite celebrity, capitalizing on the viral nature of reaction content and giving users a tool to create highly engaging, humorous videos.</p>
+          <p><strong>Business/User Value:</strong> Content creators and everyday users benefit by gaining access to highly engaging, viral-ready videos. A customized celebrity deepfake reacting to niche trends offers a high &quot;shareability&quot; factor, driving organic growth and user retention.</p>
+          <p><strong>Components to Build:</strong> We will construct a multi-step pipeline: a frontend UI for video upload and persona selection; a Vision-Language Model to analyze the uploaded TikTok video; a customized LLM to generate the 10-15 second roast script/storyboard in the celebrity&apos;s voice; an API integration with Kling to generate the deepfake video; and a video processing module to stitch the deepfake to the original video.</p>
+        </div>
+      </section>
+
+      <section id="panel-team" class="panel" role="tabpanel" aria-labelledby="tab-team" hidden>
+        <div class="card">
+          <h2 class="team-name">The DeepRoasters</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>SIS ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Oliver</td>
+                <td>Mai</td>
+                <td>oliver.mai@yale.edu</td>
+                <td>om265</td>
+              </tr>
+              <tr>
+                <td>Sean</td>
+                <td>Craig</td>
+                <td>[EMAIL]</td>
+                <td>[SIS ID]</td>
+              </tr>
+              <tr>
+                <td>Ethan</td>
+                <td>Weintraub</td>
+                <td>ethan.weintraub@yale.edu</td>
+                <td>ebw43</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="panel-storyboard" class="panel" role="tabpanel" aria-labelledby="tab-storyboard" hidden>
+        <div class="card">
+          <table class="storyboard-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Scene Description</th>
+                <th>Narration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="scene_01.png" alt="Scene 1"></td>
+                <td>Fast-paced montage of typical, repetitive TikTok dance trends. The camera zooms in quickly on a user looking bored while scrolling through their phone.</td>
+                <td>&quot;Tired of seeing the exact same boring dances on your FYP?&quot;</td>
+              </tr>
+              <tr>
+                <td><img src="scene_02.png" alt="Scene 2"></td>
+                <td>Screen recording of the RoastMe AI app interface. A cursor clicks &quot;Upload&quot;, selects a cringey video, and chooses &quot;Dana White&quot; from a sleek drop-down menu of celebrity faces.</td>
+                <td>&quot;Introducing RoastMe AI. Upload any trend, pick your favorite celebrity...&quot;</td>
+              </tr>
+              <tr>
+                <td><img src="scene_03.png" alt="Scene 3"></td>
+                <td>A vertical social media video on a phone screen. The video has just smash-cut from a cringey dance trend to a full-screen shot of a hyper-realistic Dana White. He is taking up the entire frame, holding a microphone, and aggressively shouting a roast directly into the camera. Engagement metrics (likes and shares) on the right side of the screen are exploding into the millions.</td>
+                <td>&quot;...and watch them tear it apart! Go viral with the ultimate reaction video. Try it now.&quot;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('[role="tab"]');
+      var panels = {
+        overview: document.getElementById('panel-overview'),
+        team: document.getElementById('panel-team'),
+        storyboard: document.getElementById('panel-storyboard')
+      };
+
+      function showTab(id) {
+        var keys = ['overview', 'team', 'storyboard'];
+        keys.forEach(function (key) {
+          var panel = panels[key];
+          var isActive = key === id;
+          panel.classList.toggle('is-active', isActive);
+          panel.hidden = !isActive;
+        });
+
+        tabs.forEach(function (btn) {
+          var active = btn.id === 'tab-' + id;
+          btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      }
+
+      tabs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.id.replace('tab-', '');
+          showTab(id);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
